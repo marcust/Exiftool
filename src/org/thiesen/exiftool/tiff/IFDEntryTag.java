@@ -4,7 +4,13 @@ import com.google.common.collect.ImmutableSet;
 
 public enum IFDEntryTag {
 
-
+    /* More Tags can be found in
+     * http://www.awaresystems.be/imaging/tiff/tifftags/search.html
+     * Exif Spec is http://www.exif.org/Exif2-2.PDF
+     * TIFF Spec is at http://partners.adobe.com/public/developer/en/tiff/TIFF6.pdf
+     */
+    
+    
     PHOTOMETRIC_INTERPRETATION(262, "PhotometricInterpretation", IFDEntryType.SHORT ),
     COMPRESSION(259, "Compression", IFDEntryType.SHORT ),
     IMAGE_LENGTH(257, "ImageLength",  IFDEntryType.SHORT, IFDEntryType.LONG ),
