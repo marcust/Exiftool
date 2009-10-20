@@ -39,6 +39,10 @@ public enum IFDEntryTag {
     IPTC(33723, "IPTC Metadata", IsDirectory.NO, IFDEntryType.UNDEFINED, IFDEntryType.BYTE ),
     XMP(700, "XML packet containing XMP metadata", IsDirectory.NO, IFDEntryType.BYTE ),
     PHOTOSHOP(34377, "Collection of Photoshop 'Image Resource Blocks'", IsDirectory.NO, IFDEntryType.BYTE ),
+    EXIF_EXPOSURE_TIME(33434, "Exif ExposureTime", IsDirectory.NO, IFDEntryType.RATIONAL ),
+    EXIF_F_NUMBER(33437, "Exif FNumber", IsDirectory.NO, IFDEntryType.RATIONAL ),
+    EXIF_DATE_TIME_ORIGINAL(36867, "Exif Date Time Original", IFDEntryType.ASCII ),
+    
     ;
     
     private enum IsDirectory { YES, NO }

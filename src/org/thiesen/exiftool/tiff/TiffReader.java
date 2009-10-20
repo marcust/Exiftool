@@ -58,7 +58,7 @@ public class TiffReader {
         Builder<IFDEntry> entryListBuilder = ImmutableList.builder();
         for ( int i = 0; i < numberOfDirectoryEntries; i++ ) {
             
-            final IFDEntry entry = readIfdEntry( intReader, in );
+            final IFDEntry entry = readIfdEntry( tiffData, intReader, in );
             
             entryListBuilder.add( entry );
             
@@ -76,14 +76,14 @@ public class TiffReader {
         return entryListBuilder.build();
     }
     
-    private IFDEntry readIfdEntry(final @Nonnull IntReader intReader, final @Nonnull InputStream in) throws IOException {
+    private IFDEntry readIfdEntry(byte[] tiffData, final @Nonnull IntReader intReader, final @Nonnull InputStream in) throws IOException {
         
         final int tagFieldIdentifier = intReader.readUnsignedInt16(in);
         final int fieldType = intReader.readUnsignedInt16(in);
         final long numberOfValues = intReader.readUnsignedInt32(in);
         final long valueOrOffsetInBytes = intReader.readUnsignedInt32(in);
         
-        return new IFDEntry(tagFieldIdentifier, fieldType, numberOfValues, valueOrOffsetInBytes);
+        return new IFDEntry(intReader, tiffData, tagFieldIdentifier, fieldType, numberOfValues, valueOrOffsetInBytes);
     }
 
     private long readHeaderAndFindFirstIFDOffset(final byte[] tiffData)
