@@ -33,6 +33,7 @@ public enum IFDEntryTag {
      */
     DATE_TIME(306, "DateTime", IFDEntryType.ASCII ),
     ARTIST(315, "Artist", IFDEntryType.ASCII ),
+    EXIF_SPECIFIED_TIFF_TAGS(34665, "Exif Specified TIFF Tags", IFDEntryType.LONG )
     
     ;
     private final int _tag;
