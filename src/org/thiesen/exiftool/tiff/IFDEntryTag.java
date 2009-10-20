@@ -46,6 +46,10 @@ public enum IFDEntryTag {
     EXIF_DATE_TIME_DIGITIZED(36868, "Exif Date Time Digitized", IFDEntryType.ASCII ),
     EXIF_USER_COMMENTS(37510, "User Comment", IFDEntryType.ASCII ),
     EXIF_FILE_SOURCE(41728, "FileSource", IFDEntryType.ASCII ),
+    EXIF_EXPOSURE_PROGRAM(34850, "Exif Exposure Program", IFDEntryType.SHORT ),
+    EXIF_ISO_SPEED_RATING(34855, "Exif Iso Speed Rating", IFDEntryType.SHORT ),
+    EXIF_VERSION(36864, "Exif Version", IFDEntryType.UNDEFINED ),
+    
     ;
     
     private enum IsDirectory { YES, NO }
