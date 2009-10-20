@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableSet;
 
 public enum IFDEntryTag {
 
-    
+
     PHOTOMETRIC_INTERPRETATION(262, "PhotometricInterpretation", IFDEntryType.SHORT ),
     COMPRESSION(259, "Compression", IFDEntryType.SHORT ),
     IMAGE_LENGTH(257, "ImageLength",  IFDEntryType.SHORT, IFDEntryType.LONG ),
@@ -33,17 +33,30 @@ public enum IFDEntryTag {
      */
     DATE_TIME(306, "DateTime", IFDEntryType.ASCII ),
     ARTIST(315, "Artist", IFDEntryType.ASCII ),
-    EXIF_SPECIFIED_TIFF_TAGS(34665, "Exif Specified TIFF Tags", IFDEntryType.LONG )
-    
+    EXIF_IFD_POINTER(34665, "ExifIfdPointer", IsDirectory.YES, IFDEntryType.LONG ),
+    GPS_INFO_IFD_POINTER(34853, "GPS Info IFD Pointer", IsDirectory.YES, IFDEntryType.LONG ),
+    INTEROPERABILITY_IFD_POINTER(40965, "Interoperability IFD Pointer", IsDirectory.YES, IFDEntryType.LONG ),
+    IPTC(33723, "IPTC Metadata", IsDirectory.NO, IFDEntryType.UNDEFINED, IFDEntryType.BYTE ),
+    XMP(700, "XML packet containing XMP metadata", IsDirectory.NO, IFDEntryType.BYTE ),
+    PHOTOSHOP(34377, "Collection of Photoshop 'Image Resource Blocks'", IsDirectory.NO, IFDEntryType.BYTE ),
     ;
+    
+    private enum IsDirectory { YES, NO }
+    
     private final int _tag;
     private final ImmutableSet<IFDEntryType> _supportedTypes;
     private final String _displayName;
-
-    private IFDEntryTag( final int tag, final String displayName, final IFDEntryType... supportedTypes ) {
+    private final IsDirectory _isDirectory;
+    
+    private IFDEntryTag( final int tag, final String displayName, final IsDirectory isDirectory, final IFDEntryType... supportedTypes ) {
         _tag = tag;
         _displayName = displayName;
+        _isDirectory = isDirectory;
         _supportedTypes = ImmutableSet.of(supportedTypes);
+    }
+
+    private IFDEntryTag( final int tag, final String displayName, final IFDEntryType... supportedTypes ) {
+        this( tag, displayName, IsDirectory.NO, supportedTypes );
     }
 
     public static IFDEntryTag valueOf( int tagFieldIdentifier ) {
@@ -67,6 +80,10 @@ public enum IFDEntryTag {
 
     public String getDisplayName() {
         return _displayName;
+    }
+
+    public boolean isDirectory() {
+        return _isDirectory == IsDirectory.YES;
     }
     
 }

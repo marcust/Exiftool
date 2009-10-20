@@ -57,7 +57,15 @@ public class TiffReader {
         
         Builder<IFDEntry> entryListBuilder = ImmutableList.builder();
         for ( int i = 0; i < numberOfDirectoryEntries; i++ ) {
-            entryListBuilder.add( readIfdEntry( intReader, in ) );
+            
+            final IFDEntry entry = readIfdEntry( intReader, in );
+            
+            entryListBuilder.add( entry );
+            
+            if ( entry.isDirectory() ) {
+                entryListBuilder.addAll( readIfdDirectory( entry.getOffset(), tiffData) );
+            }
+        
         }
         
         final long nextEntryOffset = intReader.readUnsignedInt32(in);

@@ -34,4 +34,13 @@ class IFDEntry {
         return "IFDEntry of Type " + _tag + " with type " + _type + " ["+ _tagFieldId +"] (numberOfValues: " + _numberOfValues + ", valueOrOffsetInBytes: " + _valueOrOffsetInBytes + ")";
     }
     
+    public boolean isDirectory() {
+        return _tag != null && _tag.isDirectory();
+    }
+    
+    
+    public long getOffset() {
+        return _valueOrOffsetInBytes;
+    }
+    
 }
