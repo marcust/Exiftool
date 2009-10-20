@@ -26,19 +26,19 @@ enum IFDEntryType {
     FLOAT(11),
     DOUBLE(12);
 
-    private final short _id;
+    private final int _id;
     
     private IFDEntryType(final int id) {
-        _id = (short)id;
+        _id = id;
     }
     
-    public short getId() {
+    public int getId() {
         return _id;
     }
     
-    public static IFDEntryType valueOf( short value ) {
+    public static IFDEntryType valueOf( int fieldType ) {
         for ( final IFDEntryType type : values() ) {
-            if ( type.getId() == value ) {
+            if ( type.getId() == fieldType ) {
                 return type;
             }
         }

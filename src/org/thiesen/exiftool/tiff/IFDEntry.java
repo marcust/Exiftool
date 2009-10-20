@@ -15,12 +15,12 @@ package org.thiesen.exiftool.tiff;
 class IFDEntry {
     private final IFDEntryTag _tag;
     private final IFDEntryType _type;
-    private final int _numberOfValues;
-    private final int _valueOrOffsetInBytes;
-    private final short _tagFieldId;
+    private final long _numberOfValues;
+    private final long _valueOrOffsetInBytes;
+    private final int _tagFieldId;
     
-    public IFDEntry(short tagFieldIdentifier, short fieldType,
-            int numberOfValues, int valueOrOffsetInBytes) {
+    public IFDEntry(int tagFieldIdentifier, int fieldType,
+            long numberOfValues, long valueOrOffsetInBytes) {
         super();
         _tagFieldId = tagFieldIdentifier;
         _tag = IFDEntryTag.valueOf( tagFieldIdentifier );

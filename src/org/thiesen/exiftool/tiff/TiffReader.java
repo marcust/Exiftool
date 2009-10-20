@@ -20,8 +20,8 @@ public class TiffReader {
     private static final short MAGIC_NUMBER = 42;
     
     public interface IntReader {
-        public int readInt32( final InputStream in ) throws IOException;
-        public short readInt16( final InputStream in ) throws IOException;
+        public long readUnsignedInt32( final InputStream in ) throws IOException;
+        public int readUnsignedInt16( final InputStream in ) throws IOException;
     }
     
     final byte[] _tiffData;
@@ -43,24 +43,24 @@ public class TiffReader {
     }
     
     public ImmutableList<IFDEntry> parse() throws IOException {
-        final int firstIFDOffsetInBytes = readHeaderAndFindFirstIFDOffset(_tiffData);
+        final long firstIFDOffsetInBytes = readHeaderAndFindFirstIFDOffset(_tiffData);
         
         return readIfdDirectory( firstIFDOffsetInBytes, _tiffData );
     }
     
-    private ImmutableList<IFDEntry> readIfdDirectory(int offset, byte[] tiffData) throws IOException {
+    private ImmutableList<IFDEntry> readIfdDirectory(long offset, byte[] tiffData) throws IOException {
         final IntReader intReader = determineByteOrder(tiffData);
         final ByteArrayInputStream in = new ByteArrayInputStream(tiffData);
         in.skip(offset);
         
-        final short numberOfDirectoryEntries = intReader.readInt16(in);
+        final int numberOfDirectoryEntries = intReader.readUnsignedInt16(in);
         
         Builder<IFDEntry> entryListBuilder = ImmutableList.builder();
         for ( int i = 0; i < numberOfDirectoryEntries; i++ ) {
             entryListBuilder.add( readIfdEntry( intReader, in ) );
         }
         
-        int nextEntryOffset = intReader.readInt32(in);
+        final long nextEntryOffset = intReader.readUnsignedInt32(in);
         if ( nextEntryOffset != 0 ) {
             entryListBuilder.addAll(readIfdDirectory(nextEntryOffset, tiffData) );
         }
@@ -70,15 +70,15 @@ public class TiffReader {
     
     private IFDEntry readIfdEntry(final @Nonnull IntReader intReader, final @Nonnull InputStream in) throws IOException {
         
-        final short tagFieldIdentifier = intReader.readInt16(in);
-        final short fieldType = intReader.readInt16(in);
-        final int numberOfValues = intReader.readInt32(in);
-        final int valueOrOffsetInBytes = intReader.readInt32(in);
+        final int tagFieldIdentifier = intReader.readUnsignedInt16(in);
+        final int fieldType = intReader.readUnsignedInt16(in);
+        final long numberOfValues = intReader.readUnsignedInt32(in);
+        final long valueOrOffsetInBytes = intReader.readUnsignedInt32(in);
         
         return new IFDEntry(tagFieldIdentifier, fieldType, numberOfValues, valueOrOffsetInBytes);
     }
 
-    private int readHeaderAndFindFirstIFDOffset(final byte[] tiffData)
+    private long readHeaderAndFindFirstIFDOffset(final byte[] tiffData)
             throws IOException {
         final DataInputStream dataIn = new DataInputStream( new ByteArrayInputStream(tiffData) );
         
@@ -87,19 +87,18 @@ public class TiffReader {
         if ( dataIn.skip(2) != 2 ) {
             throw new IllegalArgumentException("Premature end of file");
         }
-        final short magicNumber = intReader.readInt16(dataIn);
+        final int magicNumber = intReader.readUnsignedInt16(dataIn);
         
         if ( magicNumber != MAGIC_NUMBER ) {
             throw new IllegalArgumentException("Magic number is expected to be " + MAGIC_NUMBER + ", but is " + magicNumber  );
         }
         
-        final int firstIFDOffsetInBytes = intReader.readInt32(dataIn);
+        final long firstIFDOffsetInBytes = intReader.readUnsignedInt32(dataIn);
         
         return firstIFDOffsetInBytes;
     }
 
-    private IntReader determineByteOrder(final byte[] dataIn)
-            throws IOException {
+    private IntReader determineByteOrder(final byte[] dataIn) {
         if ( dataIn.length < 2 ) {
             throw new IllegalArgumentException("Tiff files should at least have a 2 byte BOM");
         }

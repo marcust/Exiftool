@@ -12,13 +12,13 @@ import org.thiesen.exiftool.tiff.TiffReader.IntReader;
 public class LittleEndianReader implements IntReader {
 
     @Override
-    public short readInt16(final @Nonnull InputStream in) throws IOException {
-        return EndianUtils.readSwappedShort(in);
+    public int readUnsignedInt16(final @Nonnull InputStream in) throws IOException {
+        return EndianUtils.readSwappedUnsignedShort(in);
     }
 
     @Override
-    public int readInt32(final @Nonnull InputStream in) throws IOException {
-        return EndianUtils.readSwappedInteger(in);
+    public long readUnsignedInt32(final @Nonnull InputStream in) throws IOException {
+        return EndianUtils.readSwappedUnsignedInteger(in);
     }
 
     

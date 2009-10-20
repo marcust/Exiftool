@@ -22,19 +22,30 @@ public enum IFDEntryTag {
     Y_RESOLUTION(283, "YResolution", IFDEntryType.RATIONAL ),
     PLANAR_CONFIGURATION(284, "PlanarConfiguration", IFDEntryType.SHORT ),
     STRIP_BYTE_COUNTS(279, "StripByteCounts", IFDEntryType.SHORT, IFDEntryType.LONG ),
+    MAKE(271, "Make", IFDEntryType.ASCII ),
+    MODEL(272, "Model", IFDEntryType.ASCII ),
+    SOFTWARE(305, "Software", IFDEntryType.ASCII ),
+    /*
+     * Date Time of Image Creation
+     * The format is: “YYYY:MM:DD HH:MM:SS”, with hours like those on a 24-hour
+     * clock, and one space character between the date and the time. The length of the
+     * string, including the terminating NUL, is 20 bytes.
+     */
+    DATE_TIME(306, "DateTime", IFDEntryType.ASCII ),
+    ARTIST(315, "Artist", IFDEntryType.ASCII ),
     
     ;
-    private final short _tag;
+    private final int _tag;
     private final ImmutableSet<IFDEntryType> _supportedTypes;
     private final String _displayName;
 
     private IFDEntryTag( final int tag, final String displayName, final IFDEntryType... supportedTypes ) {
-        _tag = (short)tag;
+        _tag = tag;
         _displayName = displayName;
         _supportedTypes = ImmutableSet.of(supportedTypes);
     }
 
-    public static IFDEntryTag valueOf( short tagFieldIdentifier ) {
+    public static IFDEntryTag valueOf( int tagFieldIdentifier ) {
         for ( final IFDEntryTag tag : values() ) {
             if ( tag.getTag() == tagFieldIdentifier ) {
                 return tag;
@@ -45,7 +56,7 @@ public enum IFDEntryTag {
     
     }
 
-    private short getTag() {
+    private int getTag() {
         return _tag;
     }
 
