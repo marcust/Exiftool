@@ -16,18 +16,24 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
+import javax.annotation.Nonnull;
+
 import org.apache.commons.lang.StringUtils;
 import org.thiesen.exiftool.tiff.TiffReader.IntReader;
 
 
 class IFDEntry {
+    private final static Charset ASCII = Charset.forName("ASCII");
+    
     private final IFDEntryTag _tag;
     private final IFDEntryType _type;
     private final long _numberOfValues;
     private final long _valueOrOffsetInBytes;
     private final int _tagFieldId;
+    
     private final String _stringValue;
-
+    private final byte[] _byteValue;
+    
     public IFDEntry(IntReader intReader, byte[] tiffData, int tagFieldIdentifier, int fieldType,
             long numberOfValues, long valueOrOffsetInBytes) throws IOException {
         super();
@@ -37,15 +43,17 @@ class IFDEntry {
         _numberOfValues = numberOfValues;
         _valueOrOffsetInBytes = valueOrOffsetInBytes;
 
-        String value = null;
+        String stringValue = null;
+        byte[] byteValue = null;
         switch (_type) {
-        case ASCII: value = new String(Arrays.copyOfRange(tiffData, (int)_valueOrOffsetInBytes, (int)_valueOrOffsetInBytes + (int)_numberOfValues), Charset.forName("ASCII") ); break;
-        case SHORT: value = readUnsignedShort( intReader, valueOrOffsetInBytes, tiffData ); break;
-        case LONG: if ( _valueOrOffsetInBytes != 0 ) value = readUnsingedInt( intReader, valueOrOffsetInBytes, tiffData ); break;
-
+        case ASCII: byteValue = Arrays.copyOfRange(tiffData, (int)_valueOrOffsetInBytes, (int)_valueOrOffsetInBytes + (int)_numberOfValues); stringValue = new String( byteValue, ASCII ); break;
+        case SHORT: stringValue = readUnsignedShort( intReader, valueOrOffsetInBytes, tiffData ); break;
+        case LONG: if ( _valueOrOffsetInBytes != 0 ) stringValue = readUnsingedInt( intReader, valueOrOffsetInBytes, tiffData ); break;
+        case BYTE: byteValue = Arrays.copyOfRange(tiffData, (int)_valueOrOffsetInBytes, (int)_valueOrOffsetInBytes + (int)_numberOfValues );
         }
 
-        _stringValue = StringUtils.defaultString(value);
+        _byteValue = byteValue != null ? byteValue : new byte[0];
+        _stringValue = StringUtils.defaultString(stringValue);
 
     }
 
@@ -69,7 +77,7 @@ class IFDEntry {
 
     @Override
     public String toString() {
-        return "IFDEntry of Type " + _tag + " with type " + _type + " ["+ _tagFieldId +"] (numberOfValues: " + _numberOfValues + ", valueOrOffsetInBytes: " + _valueOrOffsetInBytes + ") " + _stringValue;
+        return "IFDEntry of Type " + _tag + " with type " + _type + " ["+ _tagFieldId +"] (numberOfValues: " + _numberOfValues + ", valueOrOffsetInBytes: " + _valueOrOffsetInBytes + ") " + getStringValue();
     }
 
     public boolean isDirectory() {
@@ -79,6 +87,14 @@ class IFDEntry {
 
     public long getOffset() {
         return _valueOrOffsetInBytes;
+    }
+
+    public @Nonnull byte[] getByteValue() {
+        return _byteValue;
+    }
+
+    public String getStringValue() {
+        return _stringValue;
     }
 
 }

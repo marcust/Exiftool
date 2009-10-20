@@ -25,6 +25,7 @@ public enum IFDEntryTag {
     MAKE(271, "Make", IFDEntryType.ASCII ),
     MODEL(272, "Model", IFDEntryType.ASCII ),
     SOFTWARE(305, "Software", IFDEntryType.ASCII ),
+    COPYRIGHT(33432, "Copyright", IFDEntryType.ASCII ),
     /*
      * Date Time of Image Creation
      * The format is: “YYYY:MM:DD HH:MM:SS”, with hours like those on a 24-hour
@@ -42,7 +43,9 @@ public enum IFDEntryTag {
     EXIF_EXPOSURE_TIME(33434, "Exif ExposureTime", IsDirectory.NO, IFDEntryType.RATIONAL ),
     EXIF_F_NUMBER(33437, "Exif FNumber", IsDirectory.NO, IFDEntryType.RATIONAL ),
     EXIF_DATE_TIME_ORIGINAL(36867, "Exif Date Time Original", IFDEntryType.ASCII ),
-    
+    EXIF_DATE_TIME_DIGITIZED(36868, "Exif Date Time Digitized", IFDEntryType.ASCII ),
+    EXIF_USER_COMMENTS(37510, "User Comment", IFDEntryType.ASCII ),
+    EXIF_FILE_SOURCE(41728, "FileSource", IFDEntryType.ASCII ),
     ;
     
     private enum IsDirectory { YES, NO }
