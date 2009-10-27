@@ -47,7 +47,7 @@ class IFDEntry {
         byte[] byteValue = null;
         switch (_type) {
         case ASCII: byteValue = Arrays.copyOfRange(tiffData, (int)_valueOrOffsetInBytes, (int)_valueOrOffsetInBytes + (int)_numberOfValues); stringValue = new String( byteValue, ASCII ); break;
-        case SHORT: stringValue = readUnsignedShort( intReader, valueOrOffsetInBytes, tiffData ); break;
+        case SHORT: stringValue = _numberOfValues == 1 ? "" + _valueOrOffsetInBytes : readUnsignedShort( intReader, valueOrOffsetInBytes, tiffData ); break;
         case LONG: if ( _valueOrOffsetInBytes != 0 ) stringValue = readUnsingedInt( intReader, valueOrOffsetInBytes, tiffData ); break;
         case BYTE: byteValue = Arrays.copyOfRange(tiffData, (int)_valueOrOffsetInBytes, (int)_valueOrOffsetInBytes + (int)_numberOfValues );
         }

@@ -12,7 +12,7 @@ public class TestTiff {
 
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        final TiffReader reader = TiffReader.read(new FileInputStream(new File("090406_1D2_2909.tif")));
+        final TiffReader reader = TiffReader.read(new FileInputStream(new File("test.tif")));
         
         System.out.println( StringUtils.join(reader.parse(), "\n" ) );
         
