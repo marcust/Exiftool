@@ -1,4 +1,4 @@
-package org.thiesen.exiftool.tiff;
+package org.thiesen.exiftool.util;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -6,7 +6,6 @@ import java.io.InputStream;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.io.EndianUtils;
-import org.thiesen.exiftool.tiff.TiffReader.IntReader;
 
 
 public class LittleEndianReader implements IntReader {

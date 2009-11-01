@@ -19,7 +19,7 @@ import java.util.Arrays;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.StringUtils;
-import org.thiesen.exiftool.tiff.TiffReader.IntReader;
+import org.thiesen.exiftool.util.IntReader;
 
 
 class IFDEntry {

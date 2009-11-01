@@ -1,4 +1,4 @@
-package org.thiesen.exiftool.tiff;
+package org.thiesen.exiftool.util;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -6,7 +6,6 @@ import java.io.InputStream;
 
 import javax.annotation.Nonnull;
 
-import org.thiesen.exiftool.tiff.TiffReader.IntReader;
 
 public class BigEndianReader implements IntReader {
 

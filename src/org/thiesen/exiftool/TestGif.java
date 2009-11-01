@@ -6,13 +6,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.apache.commons.lang.StringUtils;
-import org.thiesen.exiftool.tiff.TiffReader;
+import org.thiesen.exiftool.gif.GifReader;
 
-public class TestTiff {
+public class TestGif {
 
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        final TiffReader reader = TiffReader.read(new FileInputStream(new File("test.tif")));
+        final GifReader reader = GifReader.read(new FileInputStream(new File("test.gif")));
         
         System.out.println( StringUtils.join(reader.parse(), "\n" ) );
     }

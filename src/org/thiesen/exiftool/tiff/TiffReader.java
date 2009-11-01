@@ -9,6 +9,9 @@ import java.util.Arrays;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.io.IOUtils;
+import org.thiesen.exiftool.util.BigEndianReader;
+import org.thiesen.exiftool.util.IntReader;
+import org.thiesen.exiftool.util.LittleEndianReader;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
@@ -18,11 +21,6 @@ public class TiffReader {
     private static final byte[] LITTLE_ENDIAN_BYTE_ORDER_MARK = new byte[] { (byte)0x49, (byte)0x49 };
     private static final byte[] BIG_ENDIAN_BYTE_ORDER_MARK = new byte[] { (byte)0x4D, (byte)0x4D };
     private static final short MAGIC_NUMBER = 42;
-    
-    public interface IntReader {
-        public long readUnsignedInt32( final InputStream in ) throws IOException;
-        public int readUnsignedInt16( final InputStream in ) throws IOException;
-    }
     
     final byte[] _tiffData;
     
